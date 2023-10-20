@@ -1,4 +1,4 @@
-﻿using ECommerce.Api.Orders.Models;
+﻿using ECommerce.Api.Search.Models;
 
 namespace ECommerce.Api.Search.Interfaces
 {

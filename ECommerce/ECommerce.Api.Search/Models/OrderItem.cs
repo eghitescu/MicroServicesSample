@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Api.Orders.Models
+﻿namespace ECommerce.Api.Search.Models
 {
     public class OrderItem
     {

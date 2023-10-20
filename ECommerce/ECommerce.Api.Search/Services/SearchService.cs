@@ -6,11 +6,13 @@ namespace ECommerce.Api.Search.Services
     {
         private readonly IOrdersService ordersService;
         private readonly IProductsService productsService;
+        private readonly ICustomersService customersService;
 
-        public SearchService(IOrdersService ordersService, IProductsService productsService)
+        public SearchService(IOrdersService ordersService, IProductsService productsService, ICustomersService customersService)
         {
             this.ordersService = ordersService;
             this.productsService = productsService;
+            this.customersService = customersService;
         }
         public async Task<(bool IsSuccess, dynamic SearchResults)> SearchAsync(int customerId)
         {
@@ -20,18 +22,17 @@ namespace ECommerce.Api.Search.Services
                 return (false, null);
             }
             var productsResult = await productsService.GetProductsAsync();
-            if (productsResult.IsSuccess)
+            foreach (var order in ordersResult.Orders)
             {
-                foreach (var order in ordersResult.Orders)
+                foreach (var item in order.Items)
                 {
-                    foreach (var item in order.Items)
-                    {
-                        item.ProductName = productsResult.Products.FirstOrDefault(p => p.Id == item.ProductId)?.Name;
-                    }
+                    item.ProductName = productsResult.IsSuccess ? productsResult.Products.FirstOrDefault(p => p.Id == item.ProductId)?.Name : "Product name is not available";
                 }
             }
+            var customersResult = await customersService.GetCustomerAsync(customerId);
             var result = new
             {
+                Customer = customersResult.Customer,
                 Orders = ordersResult.Orders
             };
             return (true, result);

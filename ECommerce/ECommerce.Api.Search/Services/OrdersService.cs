@@ -1,4 +1,4 @@
-﻿using ECommerce.Api.Orders.Models;
+﻿using ECommerce.Api.Search.Models;
 using ECommerce.Api.Search.Interfaces;
 using System.Text.Json;
 
