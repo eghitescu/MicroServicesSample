@@ -22,9 +22,9 @@ namespace ECommerce.Api.Search.Services
                 var response = await client.GetAsync("api/products");
                 if (response.IsSuccessStatusCode) 
                 { 
-                    var content = await response.Content.ReadAsByteArrayAsync();
+                    var content = await response.Content.ReadAsStringAsync();
                     var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-                    var result = JsonSerializer.Deserialize<IEnumerable<Product>>(content);
+                    var result = JsonSerializer.Deserialize<IEnumerable<Product>>(content, options);
                     return (true, result, string.Empty);
                 }
                 return (false, null, response.ReasonPhrase);
